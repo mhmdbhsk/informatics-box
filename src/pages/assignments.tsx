@@ -63,7 +63,7 @@ const Home: NextPage<AssignmentsList> = ({ assignments }) => {
   );
 };
 
-export const getStaticProps = async (ctx: AppContextType) => {
+export const getServerSideProps = async (ctx: AppContextType) => {
   const response = await fetch(
     `${process.env.URL_PATH}/api/databases/133890145a3240ccb973b5b42ef439ee`
   );

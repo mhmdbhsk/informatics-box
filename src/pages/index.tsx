@@ -1,7 +1,6 @@
-import { NextPage } from 'next';
 import MenuCard from '../components/home/MenuCard';
 
-const Home: NextPage = ({}) => {
+const Home = () => {
   return (
     <div>
       <MenuCard title='Assignments' href='/assignments' />
