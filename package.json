@@ -9,9 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.4.0",
+    "@notionhq/client": "^0.3.1",
+    "autoprefixer": "^10.3.3",
+    "clsx": "^1.1.1",
     "next": "11.1.0",
+    "nextjs-progressbar": "^0.0.11",
+    "postcss": "^8.3.6",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "swr": "^1.0.0",
+    "tailwindcss": "^2.2.7"
   },
   "devDependencies": {
     "@types/react": "17.0.19",

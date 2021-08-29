@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+html.smooth {
+  scroll-behavior: smooth;
+}
+
+svg {
+  width: inherit;
+  height: inherit;
+}
+
+.underline {
+  text-decoration-color: ;
+}
+
+.assignment-card {
+  @apply p-4 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer flex flex-col space-y-2 md:flex-row md:items-center transform hover:scale-105 transition ease-out duration-200;
+}
+
+.menu-card {
+  @apply flex justify-between p-4 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer transform hover:scale-105 transition ease-out duration-200;
+}
+
+.back-button {
+  @apply opacity-50 hover:opacity-100 transition ease-out duration-200;
+}
+
+.dialog {
+  @apply inline-block w-full h-screen  sm:h-full sm:max-w-xl p-6 sm:my-8 overflow-hidden text-left align-middle transition-all transform bg-white sm:shadow-xl sm:rounded-2xl;
+}
