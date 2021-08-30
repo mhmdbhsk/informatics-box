@@ -1,14 +1,19 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
-import CloseIcon from '../../assets/CloseIcon';
-import DownloadIcon from '../../assets/DownloadIcon';
-import FileIcon from '../../assets/FileIcon';
+import CloseIcon from '../../../assets/CloseIcon';
+import DownloadIcon from '../../../assets/DownloadIcon';
+import FileIcon from '../../../assets/FileIcon';
 import Link from 'next/link';
-import { BlockItem } from '../../types/notion';
-import Badge from '../Badge';
-import ClipIcon from '../../assets/ClipIcon';
-import { dateFormatter, datePastChecker, dateRenderer } from '../../utils/date';
+import { BlockItem } from '../../../types/notion';
+import Badge from '../../Badge';
+import ClipIcon from '../../../assets/ClipIcon';
+import {
+  dateFormatter,
+  datePastChecker,
+  dateRenderer,
+} from '../../../utils/date';
 import clsx from 'clsx';
+import renderBlock from './helper/renderBlock';
 
 type ModalProps = {
   isLoading: boolean;
@@ -166,26 +171,17 @@ const Modal = ({ isOpen, handleClose, data, isLoading }: ModalProps) => {
                       <span className='mb-2 font-bold text-sm'>
                         Keterangan Tugas
                       </span>
-                      {data.content?.length > 0 ? (
-                        data.content.map((item) => {
-                          return item.paragraph ? (
-                            item.paragraph.text.map((paragraph, index) => (
-                              <div className='mt-2' key={index}>
-                                <p className='text-xs md:text-sm text-gray-500'>
-                                  {paragraph.text.content}
-                                </p>
-                              </div>
-                            ))
-                          ) : (
-                            <span className='text-xs md:text-sm text-gray-500'>
-                              Belum ada keterangan
-                            </span>
-                          );
-                        })
-                      ) : (
+                      {console.log(data.contentData.title, data.content)}
+                      {data.content?.length === 0 ? (
                         <span className='text-xs md:text-sm text-gray-500'>
                           Belum ada keterangan
                         </span>
+                      ) : (
+                        data.content?.map((block) => (
+                          <Fragment key={block.id}>
+                            {renderBlock(block)}
+                          </Fragment>
+                        ))
                       )}
                     </div>
 

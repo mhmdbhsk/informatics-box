@@ -162,4 +162,5 @@ export type BlockItem = {
       type: string;
     };
   };
+  type: string;
 };
