@@ -1,4 +1,4 @@
-const OpenIcons = ({ className }: { className?: string }) => {
+const OpenIcon = ({ className }: { className?: string }) => {
   return (
     <svg
       className={className}
@@ -14,4 +14,4 @@ const OpenIcons = ({ className }: { className?: string }) => {
   );
 };
 
-export default OpenIcons;
+export default OpenIcon;

@@ -29,10 +29,18 @@ svg {
   @apply flex justify-between p-4 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer transform hover:scale-105 transition ease-out duration-200;
 }
 
+.file-card {
+  @apply flex items-center justify-between p-4 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer transform hover:scale-105 transition ease-out duration-200 text-gray-500;
+}
+
 .back-button {
   @apply opacity-50 hover:opacity-100 transition ease-out duration-200;
 }
 
 .dialog {
-  @apply inline-block w-full h-screen  sm:h-full sm:max-w-xl p-6 sm:my-8 overflow-hidden text-left align-middle transition-all transform bg-white sm:shadow-xl sm:rounded-2xl;
+  @apply inline-block w-full h-screen overflow-y-auto sm:h-full sm:max-w-xl sm:my-8 overflow-hidden text-left align-middle transition-all transform bg-white sm:shadow-xl sm:rounded-2xl;
+}
+
+.button {
+  @apply inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-gray-800 border border-transparent rounded-md hover:bg-gray-900;
 }

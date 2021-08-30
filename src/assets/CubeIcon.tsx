@@ -1,4 +1,4 @@
-const CubeIcons = ({ className }: { className?: string }) => {
+const CubeIcon = ({ className }: { className?: string }) => {
   return (
     <svg
       className={className}
@@ -13,4 +13,4 @@ const CubeIcons = ({ className }: { className?: string }) => {
   );
 };
 
-export default CubeIcons;
+export default CubeIcon;

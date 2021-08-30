@@ -14,10 +14,9 @@ export type AssignmentItem = {
     Status: {
       id: string;
       type: string;
-      select: {
-        id: string;
-        name: string;
-        color: string;
+      formula: {
+        type: string;
+        string: string;
       };
     };
     Deadline: {
@@ -28,7 +27,7 @@ export type AssignmentItem = {
         end: string | null;
       };
     };
-    'Link Tugas/Soal': {
+    'Link Pengumpulan': {
       id: string;
       type: string;
       url: string | null;
@@ -44,13 +43,29 @@ export type AssignmentItem = {
       select: {
         id: string;
         name: string;
-        colostring: string;
+        color: string;
       };
     };
     Keterangan: {
       id: string;
       type: string;
-      rich_text: [];
+      rich_text: {
+        type: string;
+        text: {
+          content: string;
+          link: null | string;
+        };
+        annotations: {
+          bold: boolean;
+          italic: boolean;
+          strikethrough: boolean;
+          underline: boolean;
+          code: boolean;
+          color: string;
+        };
+        plain_text: string;
+        href: null | string;
+      }[];
     };
     'Tempat Pengumpulan': {
       id: string;
@@ -90,4 +105,61 @@ export type AssignmentItem = {
 
 export type AssignmentsList = {
   assignments: AssignmentItem[];
+};
+
+export type BlockItem = {
+  created_time: string;
+  has_children: boolean;
+  id: string;
+  last_edited_time: string;
+  object: string;
+  paragraph: {
+    text: {
+      annotations: {
+        bold: boolean;
+        italic: boolean;
+        strikethrough: boolean;
+        underline: boolean;
+        code: boolean;
+        color: string;
+      };
+      bold: boolean;
+      code: boolean;
+      color: string;
+      italic: boolean;
+      strikethrough: boolean;
+      underline: boolean;
+      href: null;
+      plain_text: string;
+      text: {
+        content: string;
+        link: null | string;
+        type: string;
+      };
+    }[];
+  };
+  file: {
+    caption: {
+      annotations: {
+        bold: boolean;
+        code: boolean;
+        color: string;
+        italic: boolean;
+        strikethrough: boolean;
+        underline: boolean;
+      };
+      href: null | string;
+      plain_text: string;
+      text: {
+        content: string;
+        link: null | string;
+        type: string;
+      };
+    }[];
+    file: {
+      expiry_time: string;
+      url: string;
+      type: string;
+    };
+  };
 };

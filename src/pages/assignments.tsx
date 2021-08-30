@@ -19,6 +19,9 @@ const Home: NextPage<AssignmentsList> = ({ assignments }) => {
     statusTitle: '',
     statusColor: '',
     deadline: '',
+    info: '',
+    link: '',
+    submitPlace: '',
   });
 
   const { data, isValidating } = useSWR(`/api/blocks/${id}`, fetcher);
@@ -49,14 +52,18 @@ const Home: NextPage<AssignmentsList> = ({ assignments }) => {
         </div>
         <span className='text-lg md:text-2xl font-bold'>Assignments</span>
         <div className='flex space-y-4 flex-col'>
-          {assignments.map((item) => (
-            <CardAssignments
-              data={item}
-              key={item.id}
-              handleOpen={handleOpen}
-              handleData={handleSelectedData}
-            />
-          ))}
+          {assignments.map((item) => {
+            if (item.properties.Name.title[0]) {
+              return (
+                <CardAssignments
+                  data={item}
+                  key={item.id}
+                  handleOpen={handleOpen}
+                  handleData={handleSelectedData}
+                />
+              );
+            }
+          })}
         </div>
       </div>
     </div>

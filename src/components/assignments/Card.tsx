@@ -1,17 +1,22 @@
-import OpenIcons from '../../assets/OpenIcons';
+import OpenIcon from '../../assets/OpenIcon';
 import { AssignmentItem } from '../../types/notion';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
+import { dateFormatter, datePastChecker, dateRenderer } from '../../utils/date';
+import Badge from '../Badge';
 
 type CardAssignmentsProps = {
   data: AssignmentItem;
   handleOpen: () => void;
   handleData: (data: {
     title: string;
-    subject: string;
+    subjectTitle: string;
+    subjectColor: string;
     statusTitle: string;
-    statusColor: string;
     deadline: string;
+    info: string;
+    link: string | null;
+    submitPlace: string;
   }) => void;
 };
 
@@ -22,27 +27,15 @@ const CardAssignments = ({
 }: CardAssignmentsProps) => {
   const router = useRouter();
   const dateNow = new Date();
-  const dateFormatter = (date: string) => new Date(date);
-  const dateRenderer = (date: string) =>
-    new Date(date).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' });
 
-  const isPastDate = (firstDate: any, secondDate: any) =>
-    firstDate - secondDate < 0;
-
-  const title = data.properties['Name'].title[0].text.content;
-  const subject = data.properties['Mata Pelajaran'].select.name;
-  const statusTitle = data.properties['Status'].select.name;
-  const statusColor = data.properties['Status'].select.color;
-  const deadline = data.properties['Deadline'].date.start;
-
-  const badgeColorStyles = (color: string) => {
-    switch (color) {
-      case 'red':
-        return 'bg-red-500';
-      default:
-        return 'bg-blue-500';
-    }
-  };
+  const title = data.properties['Name'].title[0]?.text.content;
+  const subjectColor = data.properties['Mata Pelajaran'].select?.color;
+  const subjectTitle = data.properties['Mata Pelajaran'].select?.name;
+  const statusTitle = data.properties['Status'].formula?.string;
+  const deadline = data.properties['Deadline'].date?.start;
+  const info = data.properties['Keterangan']?.rich_text[0]?.text.content;
+  const link = data.properties['Link Pengumpulan']?.url;
+  const submitPlace = data.properties['Tempat Pengumpulan'].select?.name;
 
   const handleClick = () => {
     router.push(
@@ -53,37 +46,40 @@ const CardAssignments = ({
       undefined,
       { shallow: true }
     );
-    handleData({ title, subject, statusTitle, statusColor, deadline });
+    handleData({
+      title,
+      subjectTitle,
+      subjectColor,
+      statusTitle,
+      deadline,
+      info,
+      link,
+      submitPlace,
+    });
     handleOpen();
   };
 
   return (
-    <div key={data.id} className='assignment-card group' onClick={handleClick}>
-      <div className='flex-1 flex cursor-pointer'>
-        <span className='group-hover:underline '>{title}</span>
-        <OpenIcons className='w-4 ml-2 opacity-0 text-gray-400 group-hover:opacity-100' />
+    <div
+      key={data.id}
+      className={clsx(
+        'assignment-card group',
+        datePastChecker(dateFormatter(deadline), dateNow) &&
+          'opacity-50 bg-black'
+      )}
+      onClick={handleClick}
+    >
+      <div className='flex-1 flex cursor-pointer mr-4 overflow-hidden whitespace-nowrap '>
+        <span className='group-hover:underline truncate'>{title}</span>
+        <OpenIcon className='w-4 ml-2 opacity-0 text-gray-400 group-hover:opacity-100' />
       </div>
       <div className='flex space-x-2 md:mr-4'>
-        <div
-          className={clsx(
-            'rounded text-xs text-white px-2 py-1 flex items-center',
-            badgeColorStyles(statusColor)
-          )}
-        >
-          <span>{subject}</span>
-        </div>
-        <div
-          className={clsx(
-            'rounded text-xs text-white px-2 py-1 flex items-center',
-            badgeColorStyles(statusColor)
-          )}
-        >
-          <span>{statusTitle}</span>
-        </div>
+        <Badge value={subjectTitle} color={subjectColor} />
+        <Badge value={statusTitle} />
       </div>
       <div
         className={`flex flex-col ${
-          isPastDate(dateFormatter(deadline), dateNow) && 'text-red-500'
+          datePastChecker(dateFormatter(deadline), dateNow) && 'text-red-500'
         }`}
       >
         <span className='text-xs'>Terakhir Pengumpulan</span>

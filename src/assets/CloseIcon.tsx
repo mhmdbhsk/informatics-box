@@ -1,4 +1,4 @@
-const CloseIcons = ({ className }: { className?: string }) => {
+const CloseIcon = ({ className }: { className?: string }) => {
   return (
     <svg
       className={className}
@@ -13,4 +13,4 @@ const CloseIcons = ({ className }: { className?: string }) => {
   );
 };
 
-export default CloseIcons;
+export default CloseIcon;
