@@ -25,7 +25,9 @@ const Text = (text: any) => {
         {text.link ? (
           <a
             href={text.link.url}
-            className='underline overflow-hidden whitespace-nowrap text-blue-900'
+            className='underline text-blue-900'
+            target='_blank'
+            rel='noreferrer'
           >
             <span className='truncate'>{text.content}</span>
           </a>

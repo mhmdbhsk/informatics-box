@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import { AppContextType } from 'next/dist/shared/lib/utils';
 import { AssignmentsList } from '../types/notion';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CardAssignments from '../components/assignments/Card';
 import ArrowLeftIcon from '../assets/ArrowLeftIcon';
 import Dialog from '../components/assignments/Dialog';

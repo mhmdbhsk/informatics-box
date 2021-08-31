@@ -67,14 +67,24 @@ const renderBlock = (block: BlockItem) => {
       const caption = value.caption ? value.caption[0]?.plain_text : '';
       return (
         <figure>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={src} alt={caption} />
-          {caption && <figcaption>{caption}</figcaption>}
+          {caption && (
+            <figcaption className='text-xs sm:text-sm text-gray-500'>
+              {caption}
+            </figcaption>
+          )}
         </figure>
       );
+    case 'file':
+      return null;
     default:
-      return `❌ Unsupported block (${
-        type === 'unsupported' ? 'unsupported by Notion API' : type
-      })`;
+      return (
+        <span className='text-xs sm:text-sm text-gray-500'>
+          ❌ Unsupported block (
+          {type === 'unsupported' ? 'unsupported by Notion API' : type})
+        </span>
+      );
   }
 };
 

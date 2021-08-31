@@ -14,6 +14,7 @@ import {
 } from '../../../utils/date';
 import clsx from 'clsx';
 import renderBlock from './helper/renderBlock';
+import FileCard from './helper/FileCard';
 
 type ModalProps = {
   isLoading: boolean;
@@ -148,6 +149,7 @@ const Modal = ({ isOpen, handleClose, data, isLoading }: ModalProps) => {
                           </div>
                         </div>
                       )}
+
                       {data.contentData.info && (
                         <div className='mt-4'>
                           <div className='flex flex-col'>
@@ -167,6 +169,7 @@ const Modal = ({ isOpen, handleClose, data, isLoading }: ModalProps) => {
                         </div>
                       )}
                     </div>
+
                     <div className='flex flex-col my-4'>
                       <span className='mb-2 font-bold text-sm'>
                         Keterangan Tugas
@@ -187,34 +190,23 @@ const Modal = ({ isOpen, handleClose, data, isLoading }: ModalProps) => {
 
                     <div className='flex flex-col my-4'>
                       <span className='mb-2 font-bold text-sm'>File</span>
-                      {data.content?.length > 0 ? (
-                        data.content?.map((item) => {
-                          return (
-                            item.file &&
-                            item.file.caption.map((caption, index) => (
-                              <Link
-                                href={`${item.file?.file?.url}`}
-                                key={index}
-                              >
-                                <a target='_blank' className='file-card'>
-                                  <FileIcon />
-                                  <span className='text-xs md:text-sm'>
-                                    {caption.text.content}
-                                  </span>
-                                  <DownloadIcon />
-                                </a>
-                              </Link>
-                            ))
-                          );
-                        })
-                      ) : (
-                        <span className='text-xs md:text-sm text-gray-500'>
-                          Belum ada file
-                        </span>
-                      )}
+                      <div className='flex flex-col space-y-4'>
+                        {data.content?.some((item) => item.type === 'file') ? (
+                          data.content.map((item, index) => {
+                            if (item.type === 'file') {
+                              return <FileCard data={item} key={index} />;
+                            }
+                          })
+                        ) : (
+                          <span className='text-xs md:text-sm text-gray-500'>
+                            Belum ada file
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 )}
+
                 <div className='mt-6 hidden sm:flex justify-end'>
                   <button
                     type='button'
