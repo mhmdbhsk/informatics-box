@@ -16,7 +16,7 @@ const Badge = ({ value, color }: { value: string; color?: string }) => {
       switch (value) {
         case 'Teams':
           return 'bg-purple-500';
-        case 'SIAP':
+        case 'Kulon':
           return 'bg-yellow-600';
         case 'Link Kustom':
           return 'bg-black';
