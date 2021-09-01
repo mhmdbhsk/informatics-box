@@ -165,3 +165,87 @@ export type BlockItem = {
   };
   type: string;
 };
+
+export type ContributorItem = {
+  properties: {
+    'Username Instagram': {
+      id: string;
+      type: string;
+      rich_text: [
+        {
+          type: string;
+          text: {
+            content: string;
+            link: {
+              url: string;
+            };
+          };
+          annotations: {
+            bold: boolean;
+            italic: boolean;
+            strikethrough: boolean;
+            underline: boolean;
+            code: boolean;
+            color: string;
+          };
+          plain_text: string;
+          href: string;
+        }
+      ];
+    };
+    Photo: {
+      id: string;
+      type: string;
+      url: string;
+    };
+    Role: {
+      id: string;
+      type: string;
+      multi_select: [
+        {
+          id: string;
+          name: string;
+          color: string;
+        },
+        {
+          id: string;
+          name: string;
+          color: string;
+        },
+        {
+          id: string;
+          name: string;
+          color: string;
+        }
+      ];
+    };
+    Order: {
+      id: string;
+      type: string;
+      number: number;
+    };
+    Name: {
+      id: string;
+      type: string;
+      title: [
+        {
+          type: string;
+          text: {
+            content: string;
+            link: null | string;
+          };
+          annotations: {
+            bold: boolean;
+            italic: boolean;
+            strikethrough: boolean;
+            underline: boolean;
+            code: boolean;
+            color: string;
+          };
+          plain_text: string;
+          href: null | string;
+        }
+      ];
+    };
+  };
+};

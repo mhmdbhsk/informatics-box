@@ -1,7 +1,7 @@
 import { AppContextType } from 'next/dist/shared/lib/utils';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import CardAssignments from '../components/assignments/Card';
+import CardAssignments from '../components/assignments/CardAssignments';
 import ArrowLeftIcon from '../assets/ArrowLeftIcon';
 import Dialog from '../components/assignments/Dialog';
 import useSWR, { SWRConfig, SWRConfiguration } from 'swr';
@@ -40,7 +40,7 @@ const Assignments = () => {
 
   const { data: initialData } = useSWR('assignments');
   const { data: assignments, isValidating: isAssignmentsValidating } = useSWR(
-    `/api/databases/${selectedClass.id}`,
+    `/api/databases/${selectedClass.id}?sorts=true&sorts_property=Deadline&sorts_direction=descending`,
     { fallbackData: initialData }
   );
   const { data: blocks, isValidating: isBlockValidating } = useSWR(() =>
@@ -110,7 +110,7 @@ const Assignments = () => {
 
 export const getServerSideProps = async (ctx: AppContextType) => {
   const response = await fetch(
-    `${process.env.URL_PATH}/api/databases/b2fd4e3ab46d4363b369136fb6e3b2a5`
+    `${process.env.URL_PATH}/api/databases/b2fd4e3ab46d4363b369136fb6e3b2a5?sorts=true&sorts_property=Deadline&sorts_direction=descending`
   );
 
   const data = await response.json();
@@ -124,8 +124,7 @@ export const getServerSideProps = async (ctx: AppContextType) => {
   };
 };
 
-export default function HomePage({ fallback }: SWRConfiguration) {
-  // SWR hooks inside the `SWRConfig` boundary will use those values.
+export default function AssignmentsPage({ fallback }: SWRConfiguration) {
   return (
     <SWRConfig value={{ fallback }}>
       <Assignments />
