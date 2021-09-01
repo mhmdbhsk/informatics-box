@@ -23,7 +23,7 @@ const RecordedLecture = () => {
         <span className='text-lg md:text-2xl font-bold'>Recorded Lecture</span>
 
         <div className='grid gap-4 sm:grid-cols-2'>
-          {initialData.items?.map((item) => {
+          {initialData.items?.map((item: { id: string; snippet: any }) => {
             const { id, snippet } = item;
             const { thumbnails, title } = snippet;
             return (
