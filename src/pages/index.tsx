@@ -4,6 +4,7 @@ const Home = () => {
   return (
     <div className='flex flex-col space-y-4'>
       <MenuCard title='Assignments' href='/assignments' />
+      <MenuCard title='Recorded Lecture' href='/recorded-lecture' />
       <MenuCard title='Contributors' href='/contributors' />
     </div>
   );

@@ -7,6 +7,8 @@ const Badge = ({ value, color }: { value: string; color?: string }) => {
       switch (color) {
         case 'orange':
           return 'bg-yellow-500';
+        case 'brown':
+          return 'bg-brown-500';
         case 'default':
           return 'bg-black';
         default:
