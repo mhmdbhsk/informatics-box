@@ -1,18 +1,32 @@
-import { NextPage } from 'next';
 import { AppContextType } from 'next/dist/shared/lib/utils';
-import { AssignmentsList } from '../types/notion';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import CardAssignments from '../components/assignments/Card';
 import ArrowLeftIcon from '../assets/ArrowLeftIcon';
 import Dialog from '../components/assignments/Dialog';
-import useSWR from 'swr';
-import fetcher from '../utils/fetcher';
+import useSWR, { SWRConfig, SWRConfiguration } from 'swr';
+import SelectBox from '../components/assignments/SelectBox';
+import CircularLoading from '../components/CircularLoading';
+import { AssignmentItem } from '../types/notion';
 
-const Home: NextPage<AssignmentsList> = ({ assignments }) => {
+const option = [
+  {
+    id: 'b2fd4e3ab46d4363b369136fb6e3b2a5',
+    title: 'Kelas A',
+    value: 'classA',
+  },
+  {
+    id: '133890145a3240ccb973b5b42ef439ee',
+    title: 'Kelas B',
+    value: 'classB',
+  },
+];
+
+const Assignments = () => {
   const router = useRouter();
   const { id } = router.query;
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedClass, setSelectedClass] = useState(option[0]);
   const [selectedData, setSelectedData] = useState({
     title: '',
     subject: '',
@@ -24,7 +38,14 @@ const Home: NextPage<AssignmentsList> = ({ assignments }) => {
     submitPlace: '',
   });
 
-  const { data, isValidating } = useSWR(`/api/blocks/${id}`, fetcher);
+  const { data: initialData } = useSWR('assignments');
+  const { data: assignments, isValidating: isAssignmentsValidating } = useSWR(
+    `/api/databases/${selectedClass.id}`,
+    { fallbackData: initialData }
+  );
+  const { data: blocks, isValidating: isBlockValidating } = useSWR(() =>
+    id ? `/api/blocks/${id}` : null
+  );
 
   const handleClose = () => {
     setIsOpen(false);
@@ -36,8 +57,8 @@ const Home: NextPage<AssignmentsList> = ({ assignments }) => {
   return (
     <div>
       <Dialog
-        data={{ content: data, contentData: selectedData }}
-        isLoading={isValidating}
+        data={{ content: blocks, contentData: selectedData }}
+        isLoading={isBlockValidating}
         isOpen={isOpen}
         handleClose={handleClose}
       />
@@ -51,19 +72,36 @@ const Home: NextPage<AssignmentsList> = ({ assignments }) => {
           <span className='text-xs md:text-sm font-bold'>Back</span>
         </div>
         <span className='text-lg md:text-2xl font-bold'>Assignments</span>
+
+        <div>
+          <SelectBox
+            selected={selectedClass}
+            setSelected={setSelectedClass}
+            option={option}
+          />
+        </div>
+
         <div className='flex space-y-4 flex-col'>
-          {assignments.map((item) => {
-            if (item.properties.Name.title[0]) {
-              return (
-                <CardAssignments
-                  data={item}
-                  key={item.id}
-                  handleOpen={handleOpen}
-                  handleData={handleSelectedData}
-                />
-              );
-            }
-          })}
+          {isAssignmentsValidating ? (
+            <CircularLoading />
+          ) : assignments.results?.results.length > 0 ? (
+            assignments.results?.results.map((item: AssignmentItem) => {
+              if (item.properties.Name.title[0]) {
+                return (
+                  <CardAssignments
+                    data={item}
+                    key={item.id}
+                    handleOpen={handleOpen}
+                    handleData={handleSelectedData}
+                  />
+                );
+              }
+            })
+          ) : (
+            <span className='text-xs sm:text-sm text-gray-500'>
+              Belum ada tugas
+            </span>
+          )}
         </div>
       </div>
     </div>
@@ -72,16 +110,25 @@ const Home: NextPage<AssignmentsList> = ({ assignments }) => {
 
 export const getServerSideProps = async (ctx: AppContextType) => {
   const response = await fetch(
-    `${process.env.URL_PATH}/api/databases/133890145a3240ccb973b5b42ef439ee`
+    `${process.env.URL_PATH}/api/databases/b2fd4e3ab46d4363b369136fb6e3b2a5`
   );
 
   const data = await response.json();
 
   return {
     props: {
-      assignments: data,
+      fallback: {
+        assignments: data,
+      },
     },
   };
 };
 
-export default Home;
+export default function HomePage({ fallback }: SWRConfiguration) {
+  // SWR hooks inside the `SWRConfig` boundary will use those values.
+  return (
+    <SWRConfig value={{ fallback }}>
+      <Assignments />
+    </SWRConfig>
+  );
+}

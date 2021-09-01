@@ -5,14 +5,17 @@ const notion = new Client({
   auth: process.env.NOTION_API_KEY,
 });
 
-export default async function getBlocks(
+export default async function getDatabase(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const { id } = req.query as { id: string };
 
   try {
-    const response = await notion.databases.query({
+    const responseDatabase = await notion.databases.retrieve({
+      database_id: id,
+    });
+    const responseQuery = await notion.databases.query({
       database_id: id,
       sorts: [
         {
@@ -21,7 +24,11 @@ export default async function getBlocks(
         },
       ],
     });
-    res.send(response.results);
+
+    res.send({
+      database: responseDatabase,
+      results: responseQuery,
+    });
   } catch (error) {
     res.send(error);
   }

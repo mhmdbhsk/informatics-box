@@ -15,6 +15,7 @@ import {
 import clsx from 'clsx';
 import renderBlock from './helper/renderBlock';
 import FileCard from './helper/FileCard';
+import CircularLoading from '../../CircularLoading';
 
 type ModalProps = {
   isLoading: boolean;
@@ -88,7 +89,7 @@ const Modal = ({ isOpen, handleClose, data, isLoading }: ModalProps) => {
               <section className='p-4 sm:p-6'>
                 {isLoading ? (
                   <div className='w-full min-h-32 h-full flex items-center justify-center text-sm'>
-                    <span>Fetching Data...</span>
+                    <CircularLoading />
                   </div>
                 ) : (
                   <div>
@@ -174,7 +175,6 @@ const Modal = ({ isOpen, handleClose, data, isLoading }: ModalProps) => {
                       <span className='mb-2 font-bold text-sm'>
                         Keterangan Tugas
                       </span>
-                      {console.log(data.contentData.title, data.content)}
                       {data.content?.length === 0 ? (
                         <span className='text-xs md:text-sm text-gray-500'>
                           Belum ada keterangan

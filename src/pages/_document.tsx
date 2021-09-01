@@ -5,7 +5,6 @@ export default class Document extends NextDocument {
     return (
       <Html>
         <Head>
-          <title>informatics-box</title>
           <link
             rel='apple-touch-icon'
             sizes='57x57'

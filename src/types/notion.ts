@@ -1,4 +1,5 @@
 export type AssignmentItem = {
+  class: string;
   object: string;
   id: string;
   created_time: string;
